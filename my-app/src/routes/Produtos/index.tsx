@@ -34,6 +34,11 @@ export default function Produtos() {
 
     },[]);
 
+    for (let index = 0; index < produtos.length; index++) {
+        const element = produtos[index];
+        console.log(element);
+    }
+
     return(
         <main style={{ padding: '20px' }}>
             <h2>Produtos</h2>
