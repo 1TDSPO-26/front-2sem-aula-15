@@ -54,7 +54,7 @@ export default function Produtos() {
                         <th>Descrição</th>
                         <th>Avatar</th>
                         <th>Ações</th>
-                    </tr>
+                    </tr> 
                 </thead>
                 <tbody>
                     {produtos.map((p) => (
