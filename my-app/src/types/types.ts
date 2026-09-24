@@ -6,7 +6,7 @@ export interface TipoProduto {
   avatar: string;
 }
 
-export type TIpoProdutoJ = {
+export type TipoProdutoJ = {
   id: string;
   nome: string;
   preco: number;
