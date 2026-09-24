@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import type { TipoProdutoJ } from "../../types/types";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 
 export default function Produtos() {
     //Modificar o título da página;
     document.title = "Produtos";
+
+    const navegate = useNavigate();
 
     //Criando o recipiente da lista de dados e tipando com o tipo de produto
     const [produtos, setProdutos] = useState<TipoProdutoJ[]>([]);
@@ -41,6 +43,26 @@ export default function Produtos() {
 
     }
 
+    const handleDelete = async (id:string)=>{
+        try {
+    
+        const response = await fetch(`http://localhost:3001/produtos/${id}`, {
+        method: "DELETE"
+        })
+
+        if(!response.ok){
+        throw new Error(`A exclusão falhou: ${response.status} - ${response.statusText}`)
+        }
+
+        //msg de sucesso
+        alert("O produto foi excluido com sucesso com sucesso!")
+        navegate("/produtos")
+
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     return (
         <main style={{ padding: '20px' }}>
             <h2>Produtos</h2>
@@ -64,7 +86,10 @@ export default function Produtos() {
                             <td>{p.preco}</td>
                             <td>{p.estoque}</td>
                             <td><img src={p.avatar} alt={p.nome} width={60} height={60} style={{ objectFit: 'cover' }} /></td>
-                            <td><Link to={`/editar-produtos/${p.id}`}>Editar</Link></td>
+                            <td>
+                                <Link to={`/editar-produtos/${p.id}`}>Editar</Link> | <Link to="#" onClick={()=>handleDelete(p.id)}>Excluir
+                                </Link>
+                            </td>
                         </tr>
                     ))}
                 </tbody>
