@@ -1,7 +1,26 @@
 {
   "produtos": [
-    { "id": "1", "nome": "Notebook", "preco": 3500, "estoque": 10, "avatar" : "avatar1.png" },
-    { "id": "2", "nome": "Mouse", "preco": 120, "estoque": 25, "avatar" : "avatar2.png" },
-    { "id": "3", "nome": "Teclado", "preco": 110, "estoque": 8, "avatar" : "avatar3.png" }
-  ]
+    {
+      "id": "1",
+      "nome": "Notebook LG",
+      "preco": 4500,
+      "estoque": 10,
+      "avatar": "avatar1.png"
+    },
+    {
+      "id": "2",
+      "nome": "Mouse star",
+      "preco": 150,
+      "estoque": 18,
+      "avatar": "avatar2.png"
+    },
+    {
+      "id": "3",
+      "nome": "Teclado LED",
+      "preco": 140,
+      "estoque": 8,
+      "avatar": "avatar3.png"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
 }
