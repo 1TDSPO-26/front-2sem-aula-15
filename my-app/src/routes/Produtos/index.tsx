@@ -1,14 +1,16 @@
 import { useEffect, useState } from "react";
-import type { TIpoProdutoJ } from "../../types/types";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
+import type { TipoProdutoJ } from "../../types/types";
 
 export default function Produtos() {
 
   //Modificar o titulo da pagina
   document.title = "Produtos";
 
+  const navigate = useNavigate();
+
   //Criando o recipiente da lista de dados e tipando com o tipo de produto
-  const[produtos, setProdutos] = useState<TIpoProdutoJ[]>([]);
+  const[produtos, setProdutos] = useState<TipoProdutoJ[]>([]);
 
   useEffect( ()=>{
     //Simulando a requisição para o backend
@@ -23,7 +25,7 @@ export default function Produtos() {
           throw new Error(`Erro na listagem de produtdos: ${resposta.status} - ${resposta.statusText}`)
         }
 
-        const data:TIpoProdutoJ[] = await resposta.json();
+        const data:TipoProdutoJ[] = await resposta.json();
         console.log(data);
         setProdutos(data);
         
@@ -36,7 +38,27 @@ export default function Produtos() {
 
   },[]);
 
+  const handleDelete = async (id:string)=> {
+    try {
 
+        const response = await fetch(`http://localhost:3001/produtos/${id}` , {
+          method:"DELETE"
+          });
+
+              if (!response.ok) {
+                  throw new Error(`A Exclusão falhou: ${response.status} - ${response.statusText}`)
+              }
+
+              //MSG de SUCESSO
+              alert("Atualização realizada com sucesso!");
+              //Redirecionando para a página de produtos
+              navigate("/produtos");
+
+    } catch (error) {
+      console.error(error);
+    }
+  }
+  
 
   return (
     <main style={{ padding: '20px' }}>
@@ -61,7 +83,9 @@ export default function Produtos() {
                   <td>{p.preco}</td>
                   <td>{p.estoque}</td>
                   <td><img src={p.avatar} alt={p.nome} width={60} height={60} style={{ objectFit: 'cover' }}/></td>
-                  <td><Link to={`/editar-produtos/${p.id}`}> Editar</Link></td>
+                  <td>
+                    <Link to={`/editar-produtos/${p.id}`}>Editar</Link> | <Link to="#" onClick={ ()=> handleDelete(p.id)}>Excluir</Link>
+                  </td>
                 </tr>
               ) )}
             </tbody>
