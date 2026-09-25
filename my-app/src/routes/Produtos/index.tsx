@@ -6,7 +6,7 @@ export default function Produtos() {
     //Modificar o título da página;
     document.title = "Produtos";
 
-    const navegate = useNavigate();
+    const navigate = useNavigate();
 
     //Criando o recipiente da lista de dados e tipando com o tipo de produto
     const [produtos, setProdutos] = useState<TipoProdutoJ[]>([]);
@@ -37,10 +37,25 @@ export default function Produtos() {
 
     }, []);
 
-    for (let index = 0; index < produtos.length; index++) {
-        const element = produtos[index];
-        console.log(element);
+    const handleDelete = async (id:string)=>{
+         try {
 
+        const response = await fetch(`http://localhost:3001/produtos/${id}` , {
+          method:"DELETE"
+        });
+
+              if (!response.ok) {
+                  throw new Error(`A exclusão falhou: ${response.status} - ${response.statusText}`)
+              }
+
+              //MSG de SUCESSO
+              alert("O produto foi excluído com sucesso!");
+              //Redirecionando para a página de produtos
+              navigate("/");
+
+      } catch (error) {
+        console.error(error);
+      }
     }
 
     const handleDelete = async (id:string)=>{
@@ -76,7 +91,7 @@ export default function Produtos() {
                         <th>Descrição</th>
                         <th>Avatar</th>
                         <th>Ações</th>
-                    </tr>
+                    </tr> 
                 </thead>
                 <tbody>
                     {produtos.map((p) => (
@@ -87,8 +102,7 @@ export default function Produtos() {
                             <td>{p.estoque}</td>
                             <td><img src={p.avatar} alt={p.nome} width={60} height={60} style={{ objectFit: 'cover' }} /></td>
                             <td>
-                                <Link to={`/editar-produtos/${p.id}`}>Editar</Link> | <Link to="#" onClick={()=>handleDelete(p.id)}>Excluir
-                                </Link>
+                                <Link to={`/editar-produtos/${p.id}`}>Editar</Link> | <Link to="#" onClick={()=> handleDelete(p.id)}>Excluir</Link>
                             </td>
                         </tr>
                     ))}
