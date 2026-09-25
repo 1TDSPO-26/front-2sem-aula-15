@@ -38,43 +38,23 @@ export default function Produtos() {
     }, []);
 
     const handleDelete = async (id:string)=>{
-         try {
+        try {
 
         const response = await fetch(`http://localhost:3001/produtos/${id}` , {
-          method:"DELETE"
+        method:"DELETE"
         });
 
-              if (!response.ok) {
-                  throw new Error(`A exclusão falhou: ${response.status} - ${response.statusText}`)
-              }
-
-              //MSG de SUCESSO
-              alert("O produto foi excluído com sucesso!");
-              //Redirecionando para a página de produtos
-              navigate("/");
-
-      } catch (error) {
-        console.error(error);
-      }
-    }
-
-    const handleDelete = async (id:string)=>{
-        try {
-    
-        const response = await fetch(`http://localhost:3001/produtos/${id}`, {
-        method: "DELETE"
-        })
-
-        if(!response.ok){
-        throw new Error(`A exclusão falhou: ${response.status} - ${response.statusText}`)
+        if (!response.ok) {
+            throw new Error(`A exclusão falhou: ${response.status} - ${response.statusText}`)
         }
 
-        //msg de sucesso
-        alert("O produto foi excluido com sucesso com sucesso!")
-        navegate("/produtos")
+        //MSG de SUCESSO
+        alert("O produto foi excluído com sucesso!");
+        //Redirecionando para a página de produtos
+        navigate("/");
 
         } catch (error) {
-            console.log(error);
+            console.error(error);
         }
     }
 

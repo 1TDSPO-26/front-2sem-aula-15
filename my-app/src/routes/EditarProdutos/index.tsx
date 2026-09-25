@@ -10,7 +10,7 @@ export default function EditarProdutos() {
   const navigate = useNavigate();
 
   //Declarando os componentes do hookForm
-  const{register,handleSubimit,setValue,reset, formState:{errors}} = useForm<TipoProdutoJ>({
+  const{register,handleSubmit,setValue,reset, formState:{errors}} = useForm<TipoProdutoJ>({
     defaultValues:{ id: "", nome: "", preco: 0, estoque: 0,avatar: "" },mode:"onBlur"});
 
     //Recuperar o parâmetro da rota através do hook useParams, desestruturando o objeto.
