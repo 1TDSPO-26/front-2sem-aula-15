@@ -2,12 +2,23 @@
 import { useNavigate,useParams } from "react-router"
 import type { TipoProdutoJson } from "../../types/types";
 import { useState, useEffect } from "react";
+import { useForm } from "react-hook-form";
 
 
 
 
 export default function EditarProdutos() {
   document.title = "Editar Produtos"
+  //declarando o componente do hook-form
+  const { register, handleSubmit, setValues ,reset, formState: { errors } } = useForm<TipoProdutoJson>({
+    defaultValues: {
+      id: "",
+      nome: "",
+      preco: 0,
+      estoque: 0,
+      avatar: ""
+    }, mode: "onBlur"
+  });
   // recuperando o id do produto da URL (params)
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate();
@@ -23,6 +34,7 @@ export default function EditarProdutos() {
         const data: TipoProdutoJson = await response.json();
         console.log("Produtos carregados:", data);
         setProduto(data);
+        reset(data); // Atualiza os valores do formulário com os 
       } catch (error) {
         console.error("Erro ao carregar produtos:", error);
       }
@@ -64,8 +76,8 @@ export default function EditarProdutos() {
             <legend>Dados do Produto</legend>
             <div>
               <label htmlFor="nomeProduto">Nome Produto </label>
-              <input type="text" name="nome" id="nomeProduto" value={produto.nome}
-                onChange={e => setProduto({ ...produto, nome: e.target.value })} />
+              <input type="text" {...register("nome", { required: "O nome do produto é obrigatório", minLength: { value: 2, message: "O nome do produto deve ter pelo menos 2 caracteres" }, maxLength: { value: 100, message: "O nome do produto não pode exceder 100 caracteres" } })} 
+            /> <span>{errors.nome?.message}</span>
             </div>
             <div>
               <label htmlFor="preco">Preço R$ </label>
