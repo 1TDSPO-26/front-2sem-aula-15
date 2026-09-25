@@ -1,13 +1,20 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import type { TipoProdutoJ } from "../../types/types";
+import { useForm } from "react-hook-form";
 
 export default function EditarProdutos() {
     //Modificar o titulo da página
     document.title = "Editar Produtos"
 
-    //Importando hook, 
+    //Importando hook 
     const navigate = useNavigate()
+
+    //Declarando os componentes do hookForm
+    const{register, handleSubmit, setValue, reset, formState: {errors}} = useForm<TipoProdutoJ>({
+        defaultValues: {id: "", nome: "", preco: 0, estoque: 0, avatar: ""}, 
+        mode:"onBlur"});
+
     //Recuperar o parâmetro da rota através do hook useParams, desestruturando o objeto 
 
     const { id } = useParams<{id:string}>();
@@ -78,8 +85,9 @@ export default function EditarProdutos() {
                         <legend>Dados do Produto</legend>
                         <div>
                             <label htmlFor="nome">Nome do Produto: </label>
-                            <input type="text" name="nome" id="nomeProduto" value={produto.nome} 
-                            onChange={e=> setProduto({...produto,nome:e.target.value})} />
+                            <input type="text" {...register("nome", {required: "Informe os dados do produto", minLength: 
+                                {value: 3, message: "O campo deve ter no mínimo 3 caracteres"}} )}/>
+                                {errors.nome && <span style={{color: "#ff0000"}}>{errors.nome.message}</span> }
                         </div>
                         <div>
                             <label htmlFor="preco">Preço R$: </label>
